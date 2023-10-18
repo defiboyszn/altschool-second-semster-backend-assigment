@@ -120,7 +120,7 @@ app.post('/login', async (req, res) => {
             });
 
             // Redirect to "/task" upon successful login
-            return res.redirect('/tasks');
+            return res.redirect('/');
         }
 
         res.status(401).json({ message: "Invalid credentials" });
@@ -151,14 +151,14 @@ app.post('/register', async (req, res) => {
 
         await user.save();
 
-        res.status(200).json({ message: "Registration successful", data: user.toJSON() });
+        return res.redirect('/login');
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Something went wrong, please try again later." });
     }
 });
 
-app.get('/tasks', async (req, res) => {
+app.get('/', async (req, res) => {
     // Get the token from the cookie
     const token = req.cookies?.authToken;
 
@@ -195,7 +195,7 @@ app.post('/tasks', verifyAuthToken, async (req, res) => {
 
         await newTask.save();
         // Redirect to "/task" upon successful login
-        return res.redirect('/tasks');
+        return res.redirect('/');
         // res.status(200).json({ message: "Added successful", data: newTask.toJSON() });
     } catch (err) {
         console.error(err);
