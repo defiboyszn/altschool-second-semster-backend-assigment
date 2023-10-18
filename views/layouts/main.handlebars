@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>{{pageTitle}}</title>
+  <style>
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+    }
+
+    header {
+      background-color: blue;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+
+    footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Todox</h1>
+    {{#if username}}
+    <p>Welcome {{username}}</p>
+    {{/if}}
+  </header>
+
+  <div class="content">
+    {{{body}}}
+  </div>
+
+  <footer>
+    <p>&copy; 2023 Todox</p>
+  </footer>
+</body>
+
+</html>

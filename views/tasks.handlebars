@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tasks</title>
+  <style>
+    /* Reset some default styles */
+    body,
+    h1,
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Style the body background */
+    body {
+      background-color: #f5f5f5;
+    }
+
+    /* Style the task list container */
+    .task-h1 {
+      color: #111;
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* Style the task list */
+    ul {
+      list-style: none;
+      margin: 20px;
+      padding: 0;
+    }
+
+    /* Style individual tasks */
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 10px 0;
+      padding: 10px;
+    }
+
+    ul div {
+      width: 90%;
+    }
+
+    /* Style the checkbox */
+    .task-checkbox {
+      margin-right: 10px;
+    }
+
+    /* Style the search input */
+    #search {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Style the button */
+    #addTodoButton {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 10px;
+      font-size: 16px;
+    }
+
+    #addTodoButton:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="task-h1">Task List</h1>
+  <form action="/tasks" method="post">
+    <input type="text" id="search" name="title" placeholder="Add tasks">
+    <button id="addTodoButton">Add Todo</button>
+  </form>
+  <ul>
+    {{#each tasks}}
+    <div>
+      <li>
+        <label class="task-checkbox">
+          {{#if this.done}}
+          <input type="checkbox" data-taskid="{{this._id}}" checked>
+          {{else}}
+          <input type="checkbox" data-taskid="{{this._id}}" />
+          {{/if}}
+        </label>
+        {{this.title}}
+        <button data-taskid="{{this._id}}">
+          Delete
+        </button>
+      </li>
+    </div>
+    {{/each}}
+  </ul>
+
+  <script>
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', async () => {
+        const taskId = checkbox.getAttribute('data-taskid');
+        const response = await fetch(`/tasks/${taskId}`, {
+          method: 'PUT',
+        });
+
+        if (response.status === 200) {
+          // Task updated successfully
+          console.log(`Task with ID ${taskId} updated.`);
+        } else {
+          // Handle any errors
+          console.error(`Error updating task with ID ${taskId}.`);
+        }
+      });
+    });
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', async () => {
+        const taskId = button.getAttribute('data-taskid');
+        const response = await fetch(`/tasks/${taskId}`, {
+          method: 'DELETE',
+        });
+
+        if (response.status === 200) {
+          // Task updated successfully
+          console.log(`Task with ID ${taskId} updated.`);
+        } else {
+          // Handle any errors
+          console.error(`Error updating task with ID ${taskId}.`);
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
