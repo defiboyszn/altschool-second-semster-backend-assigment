@@ -17,7 +17,8 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "build": "node app.js"
   },
   "name": "alt-school-assignment",
   "version": "1.0.0",
